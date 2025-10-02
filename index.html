@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalConnect - Client Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a3a5f;
+            --secondary: #4a6fa5;
+            --accent: #166088;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #8bb9fe;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #e9f2ff;
+            color: var(--primary);
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .case-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .case-item:last-child {
+            border-bottom: none;
+        }
+        
+        .case-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .case-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: #e8f5e9;
+            color: var(--success);
+        }
+        
+        .status-pending {
+            background-color: #fff8e1;
+            color: var(--warning);
+        }
+        
+        .status-closed {
+            background-color: #ffebee;
+            color: var(--danger);
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* File Cabinet */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .file-item {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .file-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        /* Chat */
+        .chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        
+        .message.received {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            align-self: flex-start;
+        }
+        
+        .message.sent {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+        }
+        
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        
+        .login-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h2 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .two-factor {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .two-factor h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Appointment Booking */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-day:hover {
+            background-color: #e9f2ff;
+        }
+        
+        .calendar-day.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-slot:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .time-slot.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>LegalConnect</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Dashboard</a></li>
+                        <li><a href="#">My Cases</a></li>
+                        <li><a href="#">Documents</a></li>
+                        <li><a href="#">Appointments</a></li>
+                        <li><a href="#">Billing</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <div class="user-avatar">JD</div>
+                    <span>John Doe</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-briefcase"></i> My Cases</a></li>
+                    <li><a href="#"><i class="fas fa-folder"></i> Documents</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> Messages</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+                    <li><a href="#"><i class="fas fa-user-cog"></i> Profile</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
+
+            <!-- Dashboard Content -->
+            <main>
+                <!-- Welcome Section -->
+                <div class="card">
+                    <h2>Welcome back, John</h2>
+                    <p>Here's an overview of your legal matters and recent activity.</p>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Active Cases</h3>
+                            <span class="badge">3</span>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Estate Planning Matter</div>
+                            <div class="case-status status-active">Active</div>
+                            <div class="case-update">Last updated: 2 days ago</div>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Business Contract Review</div>
+                            <div class="case-status status-pending">Pending</div>
+                            <div class="case-update">Last updated: 1 week ago</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Upcoming Appointments</h3>
+                            <span class="badge">2</span>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Consultation - Smith Case</div>
+                            <div class="case-update">Tomorrow, 10:00 AM</div>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Document Review</div>
+                            <div class="case-update">Oct 15, 2:30 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Documents</h3>
+                            <span class="badge">5</span>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Contract Draft.docx</div>
+                            <div class="case-update">Uploaded: Oct 5</div>
+                        </div>
+                        <div class="case-item">
+                            <div class="case-title">Disclosure Form.pdf</div>
+                            <div class="case-update">Uploaded: Oct 3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs Section -->
+                <div class="card">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="appointment">Book Appointment</div>
+                        <div class="tab" data-tab="intake">Intake Form</div>
+                        <div class="tab" data-tab="documents">Documents</div>
+                        <div class="tab" data-tab="messages">Messages</div>
+                    </div>
+
+                    <!-- Appointment Booking Tab -->
+                    <div class="tab-content active" id="appointment">
+                        <h3>Schedule an Appointment</h3>
+                        <p>Select a date and time for your consultation.</p>
+                        
+                        <div class="calendar">
+                            <div class="calendar-header">Sun</div>
+                            <div class="calendar-header">Mon</div>
+                            <div class="calendar-header">Tue</div>
+                            <div class="calendar-header">Wed</div>
+                            <div class="calendar-header">Thu</div>
+                            <div class="calendar-header">Fri</div>
+                            <div class="calendar-header">Sat</div>
+                            
+                            <!-- Calendar days would be generated dynamically in a real app -->
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day selected">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day">10</div>
+                            <div class="calendar-day">11</div>
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day">19</div>
+                            <div class="calendar-day">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                        </div>
+                        
+                        <h4>Available Time Slots</h4>
+                        <div class="time-slots">
+                            <div class="time-slot">9:00 AM</div>
+                            <div class="time-slot">9:30 AM</div>
+                            <div class="time-slot">10:00 AM</div>
+                            <div class="time-slot selected">10:30 AM</div>
+                            <div class="time-slot">11:00 AM</div>
+                            <div class="time-slot">11:30 AM</div>
+                            <div class="time-slot">1:00 PM</div>
+                            <div class="time-slot">1:30 PM</div>
+                            <div class="time-slot">2:00 PM</div>
+                            <div class="time-slot">2:30 PM</div>
+                            <div class="time-slot">3:00 PM</div>
+                            <div class="time-slot">3:30 PM</div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label for="appointment-notes">Notes (Optional)</label>
+                            <textarea id="appointment-notes" rows="3" placeholder="Add any details about what you'd like to discuss"></textarea>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block">Confirm Appointment</button>
+                    </div>
+
+                    <!-- Intake Form Tab -->
+                    <div class="tab-content" id="intake">
+                        <h3>New Client Intake Form</h3>
+                        <p>Please complete this form to help us understand your legal needs.</p>
+                        
+                        <div class="form-group">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="matter-type">Type of Legal Matter</label>
+                            <select id="matter-type">
+                                <option value="">Select a matter type</option>
+                                <option value="family">Family Law</option>
+                                <option value="estate">Estate Planning</option>
+                                <option value="business">Business Law</option>
+                                <option value="real-estate">Real Estate</option>
+                                <option value="employment">Employment Law</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">Case Description</label>
+                            <textarea id="description" rows="4" placeholder="Please describe your legal matter"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="documents">Upload Documents (Optional)</label>
+                            <input type="file" id="documents" multiple>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-block">Submit Intake Form</button>
+                    </div>
+
+                    <!-- Documents Tab -->
+                    <div class="tab-content" id="documents">
+                        <h3>Document Center</h3>
+                        <p>Access and manage your case documents securely.</p>
+                        
+                        <div class="file-grid">
+                            <div class="file-item">
+                                <div class="file-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="file-name">Retainer Agreement</div>
+                                <div class="file-date">Oct 1, 2023</div>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">
+                                    <i class="fas fa-file-word"></i>
+                                </div>
+                                <div class="file-name">Case Summary</div>
+                                <div class="file-date">Sep 28, 2023</div>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">
+                                    <i class="fas fa-file-image"></i>
+                                </div>
+                                <div class="file-name">Evidence Photos</div>
+                                <div class="file-date">Sep 25, 2023</div>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">
+                                    <i class="fas fa-file-contract"></i>
+                                </div>
+                                <div class="file-name">Contract Draft</div>
+                                <div class="file-date">Sep 20, 2023</div>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">
+                                    <i class="fas fa-file-upload"></i>
+                                </div>
+                                <div class="file-name">Upload New</div>
+                                <div class="file-date"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Tab -->
+                    <div class="tab-content" id="messages">
+                        <h3>Secure Messaging</h3>
+                        <p>Communicate securely with your legal team.</p>
+                        
+                        <div class="chat-container">
+                            <div class="chat-messages">
+                                <div class="message received">
+                                    <div class="message-sender">Atty. Sarah Johnson</div>
+                                    <div class="message-content">Hi John, I've reviewed the documents you submitted. We should schedule a call to discuss next steps.</div>
+                                    <div class="message-time">Yesterday, 2:30 PM</div>
+                                </div>
+                                <div class="message sent">
+                                    <div class="message-content">Thanks for the update. I'm available Thursday afternoon if that works for you.</div>
+                                    <div class="message-time">Yesterday, 3:15 PM</div>
+                                </div>
+                                <div class="message received">
+                                    <div class="message-sender">Atty. Sarah Johnson</div>
+                                    <div class="message-content">Thursday at 2 PM works for me. I'll send a calendar invitation.</div>
+                                    <div class="message-time">Today, 9:45 AM</div>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" placeholder="Type your message...">
+                                <button class="btn btn-primary">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Calendar day selection
+        document.querySelectorAll('.calendar-day').forEach(day => {
+            day.addEventListener('click', () => {
+                document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                day.classList.add('selected');
+            });
+        });
+        
+        // Time slot selection
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', () => {
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                slot.classList.add('selected');
+            });
+        });
+        
+        // Simulate form submission
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            if (button.textContent.includes('Submit') || button.textContent.includes('Confirm')) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    alert('Thank you! Your information has been submitted successfully.');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
